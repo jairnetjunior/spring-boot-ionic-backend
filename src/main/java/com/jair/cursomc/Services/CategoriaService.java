@@ -1,4 +1,4 @@
-package com.jair.cursomc.Services;
+package com.jair.cursomc.services;
 
 import java.util.Optional;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jair.cursomc.domain.Categoria;
 import com.jair.cursomc.repositories.CategoriaRepository;
+import com.jair.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -15,8 +16,9 @@ public class CategoriaService {
 	private CategoriaRepository repo;
 	
 	public Categoria buscar(Integer id) {
-		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null); 
+		Optional<Categoria> obj = repo.findById(id);  
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName())); 
 	}
 
 }
