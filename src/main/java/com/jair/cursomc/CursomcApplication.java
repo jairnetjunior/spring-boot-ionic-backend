@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jair.cursomc.domain.Categoria;
+import com.jair.cursomc.domain.Cidade;
 import com.jair.cursomc.domain.Cliente;
 import com.jair.cursomc.domain.Endereco;
 import com.jair.cursomc.domain.Estado;
