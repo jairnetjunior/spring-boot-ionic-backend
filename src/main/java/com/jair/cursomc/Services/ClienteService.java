@@ -17,7 +17,6 @@ import com.jair.cursomc.domain.Endereco;
 import com.jair.cursomc.domain.enums.TipoCliente;
 import com.jair.cursomc.dto.ClienteDTO;
 import com.jair.cursomc.dto.ClienteNewDTO;
-import com.jair.cursomc.repositories.CidadeRepository;
 import com.jair.cursomc.repositories.ClienteRepository;
 import com.jair.cursomc.repositories.EnderecoRepository;
 import com.jair.cursomc.services.exceptions.DataIntegrityException;
