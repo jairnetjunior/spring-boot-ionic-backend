@@ -10,6 +10,7 @@ import com.jair.cursomc.domain.ItemPedido;
 import com.jair.cursomc.domain.PagamentoComBoleto;
 import com.jair.cursomc.domain.Pedido;
 import com.jair.cursomc.domain.enums.EstadoPagamento;
+import com.jair.cursomc.repositories.ClienteRepository;
 import com.jair.cursomc.repositories.ItemPedidoRepository;
 import com.jair.cursomc.repositories.PagamentoRepository;
 import com.jair.cursomc.repositories.PedidoRepository;
@@ -34,6 +35,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ClienteRepository clienteService;
+	
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = pedidoRepository.findById(id);  
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -43,6 +47,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.findById(obj.getCliente().getId()).get());
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -53,10 +58,12 @@ public class PedidoService {
 		pagamentoRepository.save(obj.getPagamento());
 		for(ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.00);
-			ip.setPreco(produtoRepository.findById(ip.getProduto().getId()).get().getPreco());
+			ip.setProduto(produtoRepository.findById(ip.getProduto().getId()).get());
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 
